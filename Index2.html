@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Augmented Decision Making Infographic</title>
+    <style>
+        /* --- CSS Styling (from style.css) --- */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #eef7fc;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll from hidden elements */
+        }
+
+        #infographic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        section {
+            margin-bottom: 50px;
+            padding: 25px;
+            background-color: #f8fafd;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        section .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        section .content p {
+            max-width: 800px;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .visual {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        /* Flow Chart Styling */
+        .flow-chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px; /* Space between items */
+        }
+
+        .flow-step {
+            background-color: #e6f7ff;
+            border: 1px solid #99daff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            text-align: center;
+            width: 200px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: help; /* Indicate hover-over */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            background-color: #d1efff;
+        }
+
+        .flow-step h3 {
+            margin: 0 0 8px 0;
+            color: #0056b3;
+            font-size: 1.1em;
+        }
+
+        .flow-step .hover-content {
+            visibility: hidden; /* Use visibility for smooth transition */
+            opacity: 0;
+            position: absolute;
+            top: -10px; /* Position above the step */
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            white-space: nowrap;
+            z-index: 10;
+            font-size: 0.9em;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+        }
+
+        .flow-step:hover .hover-content {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .arrow {
+            font-size: 2.5em;
+            color: #007bff;
+            margin: 0 10px;
+            animation: bounceArrow 1.5s infinite ease-in-out;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+
+        /* Automation Bias Styling */
+        .causes-consequences {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .causes-consequences h4 {
+            color: #dc3545;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f8d7da;
+            padding-bottom: 5px;
+        }
+
+        .causes-consequences ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .causes-consequences li {
+            margin-bottom: 10px;
+            font-size: 1em;
+            max-width: 300px;
+        }
+
+        .hover-point {
+            cursor: help;
+            text-decoration: underline dotted #dc3545;
+            color: #dc3545;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #555;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            white-space: normal;
+            max-width: 250px;
+            text-align: left;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 0;
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            pointer-events: none; /* Allows clicks on elements below */
+        }
+
+        .tooltip-animation {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-100%);
+        }
+
+
+        /* Solutions Grid */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .solution-item {
+            background-color: #fefefe;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s, background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .solution-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            background-color: #e6f7ff;
+        }
+
+        .solution-item img {
+            width: 65px;
+            height: 65px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .solution-item p {
+            font-weight: bold;
+            color: #0056b3;
+            font-size: 1.05em;
+        }
+
+        /* Pop-up Styling */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+        }
+
+        #popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #popup-content {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #popup-overlay.show #popup-content {
+            transform: scale(1);
+        }
+
+        #close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #888;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        #close-popup:hover {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        #popup-title {
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        #popup-text {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            .flow-chart { flex-direction: column; }
+            .arrow { transform: rotate(90deg) !important; margin: 10px 0; }
+            .flow-step { width: 90%; }
+            .solutions-grid { grid-template-columns: 1fr; }
+            .causes-consequences { flex-direction: column; align-items: flex-start; padding-left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="infographic-container">
+        <h1>AI-Augmented Decision Making: Amplifying Human Insight, Mitigating Automation Bias</h1>
+
+        <section id="what-is-ai-augmented">
+            <h2>What is AI-Augmented Decision Making?</h2>
+            <div class="content">
+                <p><strong>AI-augmented decision making</strong> involves AI systems providing insights, predictions, and recommendations to human decision-makers. This approach enhances efficiency, improves accuracy, and allows for complex data analysis, reducing cognitive load on humans.</p>
+                <div class="visual">
+                    <svg width="150" height="150" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="90" stroke="#0056b3" stroke-width="5"/>
+                        <path d="M100 20 L100 180 M20 100 L180 100 M40 40 L160 160 M40 160 L160 40" stroke="#0056b3" stroke-width="3"/>
+                        <circle cx="100" cy="100" r="30" fill="#e6f2ff" stroke="#0056b3" stroke-width="2"/>
+                        <path d="M100 70 L100 130 L130 100 L100 70 Z" fill="#0056b3"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-ai-augments">
+            <h2>How AI Augments Decisions (Interactive Flow)</h2>
+            <div class="flow-chart">
+                <div class="flow-step" id="step1">
+                    <h3>Data Ingestion</h3>
+                    <p class="hover-content">AI gathers and processes vast amounts of diverse data from various sources.</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step" id="step2">
+                    <h3>Pattern Recognition & Analysis</h3>
+                    <p class="hover-content">AI algorithms identify trends, anomalies, and complex relationships within the processed data.</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step" id="step3">
+                    <h3>Insights & Recommendations</h3>
+                    <p class="hover-content">The AI generates actionable insights, predictions, and specific recommendations based on its analysis.</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step" id="step4">
+                    <h3>Human Review & Context</h3>
+                    <p class="hover-content">Human decision-makers apply their domain expertise, ethical considerations, and unique judgment to the AI's output.</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step" id="step5">
+                    <h3>Decision & Action</h3>
+                    <p class="hover-content">An informed and refined decision is made, integrating both AI insights and human wisdom, leading to concrete actions.</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step" id="step6">
+                    <h3>Feedback Loop</h3>
+                    <p class="hover-content">The outcomes and results of the decisions are fed back into the AI system for continuous learning and model refinement.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="automation-bias-danger">
+            <h2>The Danger: Automation Bias</h2>
+            <div class="content">
+                <p><strong>Automation bias</strong> is the tendency for humans to over-rely on automated systems, often leading to errors when the automation is incorrect or incomplete. This can occur even when contradictory information is available.</p>
+                <div class="visual">
+                    <svg width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="50" y="50" width="40" height="60" fill="#ccc"/>
+                        <circle cx="70" cy="40" r="20" fill="#ccc"/>
+                        <path d="M60 45 Q70 30 80 45" stroke="#f00" stroke-width="2" fill="none"/> <line x1="70" y1="110" x2="70" y2="140" stroke="#ccc" stroke-width="5"/>
+                        <line x1="60" y1="140" x2="80" y2="140" stroke="#ccc" stroke-width="5"/>
+
+                        <rect x="120" y="70" width="30" height="50" fill="#888"/>
+                        <circle cx="135" cy="65" r="15" fill="#888"/>
+                        <line x1="135" y1="80" x2="160" y2="80" stroke="#888" stroke-width="5"/>
+                        <line x1="160" y1="80" x2="170" y2="60" stroke="#888" stroke-width="5"/>
+                        <path d="M170 60 L180 50 L190 60 L170 60 Z" fill="#f00"/> </svg>
+                </div>
+                <div class="causes-consequences">
+                    <h4>Causes:</h4>
+                    <ul>
+                        <li><span class="hover-point" data-info="It's often easier to accept an AI's output than to expend the mental effort to critically evaluate it, especially under pressure.">Cognitive Laziness</span></li>
+                        <li><span class="hover-point" data-info="An unfounded belief that AI systems are infallible or inherently superior, leading to unquestioning acceptance.">Trust & Over-Confidence</span></li>
+                        <li><span class="hover-point" data-info="A lack of understanding of how the AI arrived at its conclusion, making it difficult to assess its validity.">Lack of Understanding</span></li>
+                    </ul>
+                    <h4>Consequences:</h4>
+                    <ul>
+                        <li><span class="hover-point" data-info="Crucial details or anomalies might be overlooked if the human solely relies on the AI's filtered or summarized information.">Missed Critical Details</span></li>
+                        <li><span class="hover-point" data-info="Over-reliance can lead to poor decisions, particularly when the AI's recommendations are flawed or based on incomplete data.">Errors in Judgment</span></li>
+                        <li><span class="hover-point" data-info="Reduced active engagement with decision-making processes can lead to a deterioration of human skills and vigilance over time.">Decreased Human Skill & Vigilance</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="mitigating-solutions">
+            <h2>Mitigating Automation Bias</h2>
+            <div class="solutions-grid">
+                <div class="solution-item" data-solution="education">
+                    <img src="https://via.placeholder.com/60/007bff/ffffff?text=EDU" alt="Education Icon">
+                    <p>Education & Training</p>
+                </div>
+                <div class="solution-item" data-solution="transparency">
+                    <img src="https://via.placeholder.com/60/28a745/ffffff?text=XAI" alt="Transparency Icon">
+                    <p>Transparency & Explainability (XAI)</p>
+                </div>
+                <div class="solution-item" data-solution="human-in-the-loop">
+                    <img src="https://via.placeholder.com/60/ffc107/333333?text=HUMAN" alt="Human-in-Loop Icon">
+                    <p>Human-in-the-Loop Design</p>
+                </div>
+                <div class="solution-item" data-solution="critical-thinking">
+                    <img src="https://via.placeholder.com/60/dc3545/ffffff?text=THINK" alt="Critical Thinking Icon">
+                    <p>Critical Thinking & Skepticism</p>
+                </div>
+                <div class="solution-item" data-solution="accountability">
+                    <img src="https://via.placeholder.com/60/6f42c1/ffffff?text=RESP" alt="Accountability Icon">
+                    <p>Clear Accountability</p>
+                </div>
+                <div class="solution-item" data-solution="ui-design">
+                    <img src="https://via.placeholder.com/60/17a2b8/ffffff?text=UI" alt="UI Design Icon">
+                    <p>User Interface Design</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion: The Synergistic Future</h2>
+            <div class="content">
+                <p>AI is a powerful tool designed to **amplify human intelligence**, not replace it. The ultimate goal is to foster a **human-AI partnership** where the strengths of both are leveraged for superior, more robust decision-making. By understanding and mitigating automation bias, we can unlock the full potential of this synergy.</p>
+                <div class="visual">
+                    <svg width="150" height="150" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="70" cy="100" r="40" stroke="#007bff" stroke-width="5"/>
+                        <path d="M70 60 L70 140 M30 100 L110 100" stroke="#007bff" stroke-width="3"/>
+                        <circle cx="130" cy="100" r="40" stroke="#28a745" stroke-width="5"/>
+                        <path d="M130 60 L130 140 M90 100 L170 100" stroke="#28a745" stroke-width="3"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="popup-overlay" class="hidden">
+        <div id="popup-content">
+            <button id="close-popup">X</button>
+            <h3 id="popup-title"></h3>
+            <p id="popup-text"></p>
+        </div>
+    </div>
+
+    <script>
+        /* --- JavaScript Interactivity (from script.js) --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pop-up functionality
+            const popupOverlay = document.getElementById('popup-overlay');
+            const closePopupButton = document.getElementById('close-popup');
+            const popupTitle = document.getElementById('popup-title');
+            const popupText = document.getElementById('popup-text');
+
+            const solutionData = {
+                education: {
+                    title: "Education & Training",
+                    text: "Provide comprehensive training to users on AI capabilities, limitations, and the importance of human oversight. Foster a culture of continuous learning and critical engagement with AI outputs."
+                },
+                transparency: {
+                    title: "Transparency & Explainability (XAI)",
+                    text: "Implement AI systems that can explain their reasoning and highlight the key factors influencing their recommendations. This builds trust, enables critical evaluation, and helps identify potential biases."
+                },
+                "human-in-the-loop": {
+                    title: "Human-in-the-Loop Design",
+                    text: "Design workflows that inherently require human review, validation, and approval at critical decision points. This ensures active human involvement and prevents unchecked automation."
+                },
+                "critical-thinking": {
+                    title: "Critical Thinking & Skepticism",
+                    text: "Encourage users to always question AI outputs, cross-reference information with other sources, and apply their own domain expertise and judgment, rather than accepting blindly."
+                },
+                accountability: {
+                    title: "Clear Accountability",
+                    text: "Clearly define who is ultimately responsible for decisions made with AI assistance. This reinforces human agency and ensures that there is always a human point of accountability for outcomes."
+                },
+                "ui-design": {
+                    title: "User Interface Design",
+                    text: "Design user interfaces that clearly communicate the AI's confidence levels, highlight areas of uncertainty, and present alternative options or even counter-arguments to promote critical thinking."
+                }
+            };
+
+            document.querySelectorAll('.solution-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const solutionKey = this.dataset.solution;
+                    const data = solutionData[solutionKey];
+                    if (data) {
+                        popupTitle.textContent = data.title;
+                        popupText.textContent = data.text;
+                        popupOverlay.classList.add('show'); // Use 'show' class for CSS transition
+                    }
+                });
+            });
+
+            closePopupButton.addEventListener('click', () => {
+                popupOverlay.classList.remove('show');
+            });
+
+            popupOverlay.addEventListener('click', (e) => {
+                if (e.target === popupOverlay) { // Close if clicked outside the content
+                    popupOverlay.classList.remove('show');
+                }
+            });
+
+            // Hover-over for "Automation Bias" causes/consequences (tooltip functionality)
+            document.querySelectorAll('.hover-point').forEach(point => {
+                let tooltip; // Declare tooltip outside event listener to manage its lifecycle
+
+                point.addEventListener('mouseenter', function(e) {
+                    const infoText = this.dataset.info;
+                    if (!infoText) return; // Exit if no data-info attribute
+
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip';
+                    tooltip.textContent = infoText;
+                    document.body.appendChild(tooltip);
+
+                    // Position the tooltip dynamically
+                    const rect = this.getBoundingClientRect();
+                    tooltip.style.left = `${rect.left + window.scrollX + (rect.width / 2)}px`;
+                    tooltip.style.top = `${rect.top + window.scrollY - 10}px`; // Above the element
+
+                    // Trigger animation
+                    setTimeout(() => tooltip.classList.add('tooltip-animation'), 10);
+                });
+
+                point.addEventListener('mouseleave', () => {
+                    if (tooltip) {
+                        tooltip.classList.remove('tooltip-animation'); // Trigger fade-out
+                        // Remove tooltip after transition
+                        tooltip.addEventListener('transitionend', () => {
+                            if (tooltip && tooltip.parentNode) {
+                                tooltip.parentNode.removeChild(tooltip);
+                            }
+                        }, { once: true });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
